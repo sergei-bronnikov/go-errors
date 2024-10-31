@@ -6,6 +6,22 @@ import (
 
 const maxErrorsDepth = 32
 
+//var NotFound = New("not found")
+//
+//func foo() error {
+//	NotFound("file not found")
+//}
+
+func New(err string) func(msg ...string) error {
+	return func(msg ...string) error {
+		message := ""
+		if len(msg) > 0 {
+			message = msg[0]
+		}
+		return newErr(err, message)
+	}
+}
+
 func Is(err, target error) bool {
 	return errors.Is(err, target)
 }
@@ -62,38 +78,4 @@ func AsString(err error) string {
 		}
 	}
 	return string(s)
-}
-
-// Errors
-
-func InternalError(msg ...string) error {
-	message := ""
-	if len(msg) > 0 {
-		message = msg[0]
-	}
-	return newErr("internal error", message)
-}
-
-func NotFoundError(msg ...string) error {
-	message := ""
-	if len(msg) > 0 {
-		message = msg[0]
-	}
-	return newErr("not found error", message)
-}
-
-func UnauthorizedError(msg ...string) error {
-	message := ""
-	if len(msg) > 0 {
-		message = msg[0]
-	}
-	return newErr("unauthorized error", message)
-}
-
-func BadRequestError(msg ...string) error {
-	message := ""
-	if len(msg) > 0 {
-		message = msg[0]
-	}
-	return newErr("bad request error", message)
 }
