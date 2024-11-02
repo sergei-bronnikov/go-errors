@@ -6,13 +6,17 @@ import (
 
 const maxErrorsDepth = 32
 
-//var NotFound = New("not found")
+func New(err string) error {
+	return newErr(err, "")
+}
+
+//var NotFound = NewFunc("not found")
 //
 //func foo() error {
 //	NotFound("file not found")
 //}
 
-func New(err string) func(msg ...string) error {
+func NewFunc(err string) func(msg ...string) error {
 	return func(msg ...string) error {
 		message := ""
 		if len(msg) > 0 {
